@@ -65,6 +65,9 @@
 %% @end
 %%-------------------------------------------------------------------------
 
+-spec seed() ->
+    'ok'.
+
 seed() ->
     % to provide better seeding than erlang:now() or os:timestamp()
     <<B1:32/unsigned-integer,
@@ -87,6 +90,9 @@ seed() ->
 %% @end
 %%-------------------------------------------------------------------------
 
+-spec uniform(N :: 1..21267638781707063560975648195455661513) ->
+    1..21267638781707063560975648195455661513.
+
 uniform(N) when N < 1000000 ->
     % os:timestamp/0 is currently the quickest source of uniform randomness
     {_, _, MicroSecs} = os:timestamp(),
@@ -106,6 +112,9 @@ uniform(N) when N =< 21267638781707063560975648195455661513 ->
 %% ===Strong uniform random number generation.===
 %% @end
 %%-------------------------------------------------------------------------
+
+-spec strong_uniform(N :: pos_integer()) ->
+    pos_integer().
 
 strong_uniform(N) when is_integer(N), N > 0 ->
     Bytes = erlang:byte_size(binary:encode_unsigned(N)),
