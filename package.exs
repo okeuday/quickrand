@@ -20,7 +20,7 @@ defmodule Quickrand.Mixfile do
   end
 
   defp package do
-    [files: ~w(src rebar.config README.markdown),
+    [files: ~w(src doc erlang.mk Makefile rebar.config README.markdown),
      contributors: ["Michael Truog"],
      licenses: ["BSD"],
      links: %{"GitHub" => "https://github.com/okeuday/quickrand"}]
