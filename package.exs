@@ -1,0 +1,27 @@
+defmodule Quickrand.Mixfile do
+  use Mix.Project
+
+  def project do
+    [app: :quickrand,
+     version: "1.3.3",
+     description: description,
+     package: package,
+     deps: deps]
+  end
+
+  defp deps do
+    []
+  end
+
+  defp description do
+    "Provides a simple interface to call efficient random number generation " <>
+    "functions based on the context.  Proper random number seeding is enforced."
+  end
+
+  defp package do
+    [files: ~w(src rebar.config README.markdown),
+     contributors: ["Michael Truog"],
+     licenses: ["BSD"],
+     links: %{"GitHub" => "https://github.com/okeuday/quickrand"}]
+   end
+end
