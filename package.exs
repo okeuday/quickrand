@@ -14,6 +14,7 @@ defmodule Quickrand.Mixfile do
   end
 
   defp description do
+    "Quick Random Number Generation: " <>
     "Provides a simple interface to call efficient random number generation " <>
     "functions based on the context.  Proper random number seeding is enforced."
   end
