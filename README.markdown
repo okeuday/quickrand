@@ -19,5 +19,5 @@ Michael Truog (mjtruog [at] gmail (dot) com)
 License
 -------
 
-BSD (`random_wh06_int.erl` is under the Erlang Public License)
+BSD
 
