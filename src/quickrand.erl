@@ -103,8 +103,8 @@ seed() ->
 -spec uniform(N :: pos_integer()) ->
     pos_integer().
 
-
 -ifdef(ERLANG_OTP_VERSION_18_FEATURES).
+
 uniform(N) when is_integer(N), N < 1 ->
     erlang:exit(badarg);
 
@@ -131,7 +131,9 @@ uniform(N) when is_integer(N), N =< 21267638781707063560975648195455661513 ->
 
 uniform(N) when is_integer(N), N > 21267638781707063560975648195455661513 ->
     strong_uniform(N).
+
 -else.
+
 uniform(N) when is_integer(N), N < 1 ->
     erlang:exit(badarg);
 
@@ -154,6 +156,7 @@ uniform(N) when is_integer(N), N =< 21267638781707063560975648195455661513 ->
 
 uniform(N) when is_integer(N), N > 21267638781707063560975648195455661513 ->
     strong_uniform(N).
+
 -endif.
 
 %%-------------------------------------------------------------------------
