@@ -88,7 +88,7 @@ seed() ->
             error_logger:info_msg("quickrand: low_entropy!~n"),
             crypto:rand_bytes(16)
     end,
-    _ = random_wh82_int:seed(B1, B2, B3),
+    _ = random_wh82:seed(B1, B2, B3),
     _ = random_wh06_int:seed(B1, B2, B3, B4),
     ok = seed_rand(B1, B2, B3),
     ok.
@@ -147,7 +147,7 @@ uniform(N) when is_integer(N), N < 1000000 ->
 
 uniform(N) when is_integer(N), N =< 27817185604309 ->
     % 27817185604309 == 30269 * 30307 * 30323, period 2.78e13
-    random_wh82_int:uniform(N);
+    random_wh82:uniform(N);
 
 uniform(N) when is_integer(N), N =< 21267638781707063560975648195455661513 ->
     % 21267638781707063560975648195455661513 ==

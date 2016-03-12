@@ -6,7 +6,7 @@
    {vsn, "1.5.1"},
    {modules, [
         quickrand,
-        random_wh82_int,
+        random_wh82,
         random_wh06_int]},
    {registered, []},
    {applications, [

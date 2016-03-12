@@ -2,7 +2,6 @@
 % ex: set ft=erlang fenc=utf-8 sts=4 ts=4 sw=4 et nomod:
 
 %% Modified version of random module
-%% (to use Erlang's native bigint support instead of floating-point)
 
 %% Copyright (c) 2016 Michael Truog All rights reserved.
 
@@ -25,7 +24,7 @@
 %% 
 %% %CopyrightEnd%
 %%
--module(random_wh82_int).
+-module(random_wh82).
 
 %% Reasonable random number generator (period is 2.78e13):
 %%  The method is attributed to B. A. Wichmann and I. D. Hill
@@ -36,10 +35,6 @@
          uniform/0, uniform/1,
          uniform_s/1, uniform_s/2,
          next_sequence/1]).
-
-% same results as the legacy Erlang/OTP random module (by using floating-point)
--export([uniform_old/0, uniform_old/1,
-         uniform_s_old/1, uniform_s_old/2]).
 
 -define(PRIME1, 30269).
 -define(PRIME2, 30307).
@@ -101,9 +96,9 @@ reseed({A1, A2, A3}) ->
     end.
 
 %% uniform()
-%%  Returns a random integer between 0 and 27817185604308.
+%%  Returns a random float between 0 and 1.
 
--spec uniform() -> non_neg_integer().
+-spec uniform() -> float().
 
 uniform() ->
     {A1, A2, A3} = case get(?SEED_DICT) of
@@ -117,17 +112,8 @@ uniform() ->
 
     put(?SEED_DICT, {B1, B2, B3}),
 
-    I = ((B1 * 918999161) +
-         (B2 * 917846887) +
-         (B3 * 917362583))
-        rem 27817185604309,
-    I.
-
--spec uniform_old() -> float().
-
-uniform_old() ->
-    I = uniform(),
-    I / 27817185604309.
+    R = B1/?PRIME1 + B2/?PRIME2 + B3/?PRIME3,
+    R - trunc(R).
 
 %% uniform(N) -> I
 %%  Given an integer N > 1, N =< 27817185604309,
@@ -138,21 +124,14 @@ uniform_old() ->
 
 uniform(N)
     when is_integer(N), N > 1, N =< 27817185604309 ->
-    (uniform() rem N) + 1.
-
--spec uniform_old(pos_integer()) -> pos_integer().
-
-uniform_old(N)
-    when is_integer(N), N > 1, N =< 27817185604309 ->
-    trunc(uniform_old() * N) + 1.
+    trunc(uniform() * N) + 1.
 
 %%% Functional versions
 
-%% uniform_s(State) -> {I, NewState}
-%%  Returns a random integer I, between
-%%  0 and 27817185604308 (inclusive).
+%% uniform_s(State) -> {F, NewState}
+%%  Returns a random float between 0 and 1.
 
--spec uniform_s(seed()) -> {non_neg_integer(), seed()}.
+-spec uniform_s(seed()) -> {float(), seed()}.
 
 uniform_s({A1, A2, A3})
     when is_integer(A1), A1 > 0,
@@ -162,18 +141,9 @@ uniform_s({A1, A2, A3})
     B2 = (172 * A2) rem ?PRIME2,
     B3 = (170 * A3) rem ?PRIME3,
 
-    I = ((B1 * 918999161) +
-         (B2 * 917846887) +
-         (B3 * 917362583))
-        rem 27817185604309,
+    R = B1/?PRIME1 + B2/?PRIME2 + B3/?PRIME3,
 
-    {I, {B1, B2, B3}}.
-
--spec uniform_s_old(seed()) -> {float(), seed()}.
-
-uniform_s_old(State0) ->
-    {I, State1} = uniform_s(State0),
-    {I / 27817185604309, State1}.
+    {R - trunc(R), {B1, B2, B3}}.
 
 %% uniform_s(N, State) -> {I, NewState}
 %%  Given an integer N > 1, N =< 27817185604309,
@@ -184,14 +154,7 @@ uniform_s_old(State0) ->
 
 uniform_s(N, State0)
     when is_integer(N), N > 1, N =< 27817185604309 ->
-    {I, State1} = uniform_s(State0),
-    {(I rem N) + 1, State1}.
-
--spec uniform_s_old(pos_integer(), seed()) -> {pos_integer(), seed()}.
-
-uniform_s_old(N, State0)
-    when is_integer(N), N > 1, N =< 27817185604309 ->
-    {F, State1} = uniform_s_old(State0),
+    {F, State1} = uniform_s(State0),
     {trunc(F * N) + 1, State1}.
 
 %% generating another seed for multiple sequences

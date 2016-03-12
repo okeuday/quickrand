@@ -71,9 +71,9 @@
 %%  1> math:log(21267638781707063560975648195455661513) / math:log(2).
 %%
 
--export([seed/0, seed/1, seed/4,
+-export([seed0/0, seed/0, seed/1, seed/4,
          uniform/0, uniform/1,
-         uniform_s/1, uniform_s/2, seed0/0,
+         uniform_s/1, uniform_s/2,
          next_sequence/1]).
 
 -define(PRIME1, 2147483579).
