@@ -60,7 +60,7 @@
 -else.
 -ifdef(ERLANG_OTP_VERSION_17).
 -else.
--define(ERLANG_OTP_VERSION_18_FEATURES, undefined).
+-define(ERLANG_OTP_VERSION_18_FEATURES, true).
 -endif.
 -endif.
 
