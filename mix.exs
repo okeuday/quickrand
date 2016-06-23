@@ -10,6 +10,11 @@ defmodule Quickrand.Mixfile do
      deps: deps]
   end
 
+  def application do
+    [applications: [
+       :crypto]]
+  end
+
   defp deps do
     []
   end
