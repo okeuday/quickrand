@@ -3,7 +3,7 @@ defmodule Quickrand.Mixfile do
 
   def project do
     [app: :quickrand,
-     version: "1.5.2-rc1",
+     version: "1.5.2",
      language: :erlang,
      description: description,
      package: package,
