@@ -8,7 +8,7 @@
 %%%
 %%% BSD LICENSE
 %%% 
-%%% Copyright (c) 2012-2016, Michael Truog <mjtruog at gmail dot com>
+%%% Copyright (c) 2012-2017, Michael Truog <mjtruog at gmail dot com>
 %%% All rights reserved.
 %%% 
 %%% Redistribution and use in source and binary forms, with or without
@@ -43,8 +43,8 @@
 %%% DAMAGE.
 %%%
 %%% @author Michael Truog <mjtruog [at] gmail (dot) com>
-%%% @copyright 2012-2016 Michael Truog
-%%% @version 1.5.2 {@date} {@time}
+%%% @copyright 2012-2017 Michael Truog
+%%% @version 1.6.1 {@date} {@time}
 %%%------------------------------------------------------------------------
 
 -module(quickrand).
@@ -63,6 +63,8 @@
 -define(ERLANG_OTP_VERSION_18_FEATURES, true).
 -endif.
 -endif.
+
+-include("quickrand_internal.hrl").
 
 %%%------------------------------------------------------------------------
 %%% External interface functions
@@ -175,23 +177,26 @@ strong_uniform(1) ->
     1;
 
 strong_uniform(N) when is_integer(N), N > 1 ->
-    Bytes = erlang:byte_size(binary:encode_unsigned(N)),
-    (binary:decode_unsigned(crypto:strong_rand_bytes(Bytes), big) rem N) + 1.
+    Bytes = bytes(N),
+    Bits = Bytes * 8,
+    <<I:Bits/integer>> = crypto:strong_rand_bytes(Bytes),
+    (I rem N) + 1.
 
 %%-------------------------------------------------------------------------
 %% @doc
 %% ===Return an Erlang floating point random number (double-precision).===
+%% return a floating point value between 0.0 and 1.0, inclusive
 %% @end
 %%-------------------------------------------------------------------------
 
 -spec strong_float() ->
-    float().  % return a floating point value between 0.0 and 1.0, inclusive
+    float().
 
 strong_float() ->
     % 53 bits maximum for double precision floating point representation
-    Bytes = 7, % erlang:round(53.0 / 8), % bytes for random number
-    MaxRand = 72057594037927935, % (2 ** (7 * 8)) - 1 % max random number
-    binary:decode_unsigned(crypto:strong_rand_bytes(Bytes)) / MaxRand.
+    % erlang:round(53.0 / 8) == 7 bytes for random number
+    <<I:56/integer>> = crypto:strong_rand_bytes(7),
+    I / ?BITS56. % scaled by maximum random number (2 ^ (7 * 8)) - 1
 
 %%%------------------------------------------------------------------------
 %%% Private functions
