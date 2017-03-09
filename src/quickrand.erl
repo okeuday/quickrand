@@ -53,6 +53,8 @@
 %% external interface
 -export([seed/0,
          uniform/1,
+         uniform_cache/1,
+         uniform_cache/2,
          strong_uniform/1,
          strong_float/0]).
 
@@ -158,6 +160,103 @@ uniform(N) when is_integer(N), N =< 21267638781707063560975648195455661513 ->
 
 uniform(N) when is_integer(N), N > 21267638781707063560975648195455661513 ->
     strong_uniform(N).
+
+-endif.
+
+%%-------------------------------------------------------------------------
+%% @doc
+%% ===Quick uniform random number generation with cached data.===
+%% Not meant for cryptographic purposes.
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec uniform_cache(N :: pos_integer()) ->
+    pos_integer().
+
+-ifdef(ERLANG_OTP_VERSION_18_FEATURES).
+
+uniform_cache(N) when is_integer(N), N < 1 ->
+    erlang:exit(badarg);
+
+uniform_cache(1) ->
+    1;
+
+uniform_cache(N) when is_integer(N), N < 1000000 ->
+    % os:timestamp/0 is currently the quickest source of uniform randomness
+    {_, _, MicroSecs} = os:timestamp(),
+    (MicroSecs rem N) + 1;
+
+uniform_cache(N) when is_integer(N), N =< 16#ffffffff ->
+    (erlang:abs(erlang:monotonic_time() bxor
+                erlang:unique_integer()) rem N) + 1;
+
+uniform_cache(N) when is_integer(N), N > 16#ffffffff ->
+    quickrand_cache:uniform(N).
+
+-else.
+
+uniform_cache(N) when is_integer(N), N < 1 ->
+    erlang:exit(badarg);
+
+uniform_cache(1) ->
+    1;
+
+uniform_cache(N) when is_integer(N), N < 1000000 ->
+    % os:timestamp/0 is currently the quickest source of uniform randomness
+    {_, _, MicroSecs} = os:timestamp(),
+    (MicroSecs rem N) + 1;
+
+uniform_cache(N) when is_integer(N), N >= 1000000 ->
+    quickrand_cache:uniform(N).
+
+-endif.
+
+%%-------------------------------------------------------------------------
+%% @doc
+%% ===Quick uniform random number generation with cached data.===
+%% Not meant for cryptographic purposes.
+%% @end
+%%-------------------------------------------------------------------------
+
+-spec uniform_cache(N :: pos_integer(),
+                    State :: quickrand_cache:state()) ->
+    {pos_integer(), quickrand_cache:state()}.
+
+-ifdef(ERLANG_OTP_VERSION_18_FEATURES).
+
+uniform_cache(N, _) when is_integer(N), N < 1 ->
+    erlang:exit(badarg);
+
+uniform_cache(1, State) ->
+    {1, State};
+
+uniform_cache(N, State) when is_integer(N), N < 1000000 ->
+    % os:timestamp/0 is currently the quickest source of uniform randomness
+    {_, _, MicroSecs} = os:timestamp(),
+    {(MicroSecs rem N) + 1, State};
+
+uniform_cache(N, State) when is_integer(N), N =< 16#ffffffff ->
+    {(erlang:abs(erlang:monotonic_time() bxor
+                 erlang:unique_integer()) rem N) + 1, State};
+
+uniform_cache(N, State) when is_integer(N), N > 16#ffffffff ->
+    quickrand_cache:uniform(N, State).
+
+-else.
+
+uniform_cache(N, _) when is_integer(N), N < 1 ->
+    erlang:exit(badarg);
+
+uniform_cache(1, State) ->
+    {1, State};
+
+uniform_cache(N, State) when is_integer(N), N < 1000000 ->
+    % os:timestamp/0 is currently the quickest source of uniform randomness
+    {_, _, MicroSecs} = os:timestamp(),
+    {(MicroSecs rem N) + 1, State};
+
+uniform_cache(N, State) when is_integer(N), N >= 1000000 ->
+    quickrand_cache:uniform(N, State).
 
 -endif.
 
