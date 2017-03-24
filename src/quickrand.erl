@@ -293,7 +293,8 @@ strong_uniform(N) when is_integer(N), N > 1 ->
 
 strong_float() ->
     % 53 bits maximum for double precision floating point representation
-    % (need to use a maximum value of DBL_EPSILON_DIV2 with extra bit)
+    % (need to use a maximum value of math:pow(2, 53) with extra bit,
+    %  i.e. 16#1fffffffffffff + 1)
     <<I:53/unsigned-integer, Bit:1, _:2>> = crypto:strong_rand_bytes(7),
     (I + Bit) * ?DBL_EPSILON_DIV2.
 
