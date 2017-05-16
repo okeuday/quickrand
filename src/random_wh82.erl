@@ -96,16 +96,7 @@ reseed({A1, A2, A3}) ->
     end.
 
 %% uniform()
-%%  Returns a random float between 0 and 27814431395678/27817185604309
-%%                                       (0.9999009889544479).
-%%
-%% Y = ?PRIME1 * ?PRIME2 * ?PRIME3
-%% true = 27817185604309 == Y
-%% 27814431395678 == (((?PRIME1 - 1) * ?PRIME2 * ?PRIME3) +
-%%                    (?PRIME1 * (?PRIME2 - 1) * ?PRIME3) +
-%%                    (?PRIME1 * ?PRIME2 * (?PRIME3 - 1))) - Y - Y
-%% true = 0.9999009889544479 =:= 27814431395678 / 27817185604309
-%%
+%%  Returns a random float in the range [0.0 .. 1.0)
 
 -spec uniform() -> float().
 
@@ -127,7 +118,7 @@ uniform() ->
 %% uniform(N) -> I
 %%  Given an integer N > 1, N =< 27817185604309,
 %%  uniform(N) returns a random integer
-%%  between 1 and N (if N is less than 10100).
+%%  between 1 and N.
 
 -spec uniform(pos_integer()) -> pos_integer().
 
@@ -138,8 +129,7 @@ uniform(N)
 %%% Functional versions
 
 %% uniform_s(State) -> {F, NewState}
-%%  Returns a random float between 0 and 27814431395678/27817185604309
-%%                                       (0.9999009889544479).
+%%  Returns a random float in the range [0.0 .. 1.0)
 
 -spec uniform_s(seed()) -> {float(), seed()}.
 
@@ -158,7 +148,7 @@ uniform_s({A1, A2, A3})
 %% uniform_s(N, State) -> {I, NewState}
 %%  Given an integer N > 1, N =< 27817185604309,
 %%  uniform(N) returns a random integer
-%%  between 1 and N (if N is less than 10100).
+%%  between 1 and N.
 
 -spec uniform_s(pos_integer(), seed()) -> {pos_integer(), seed()}.
 
