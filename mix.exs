@@ -31,7 +31,7 @@ defmodule Quickrand.Mixfile do
   defp package do
     [files: ~w(src doc rebar.config README.markdown),
      maintainers: ["Michael Truog"],
-     licenses: ["BSD"],
+     licenses: ["MIT"],
      links: %{"GitHub" => "https://github.com/okeuday/quickrand"}]
    end
 end
