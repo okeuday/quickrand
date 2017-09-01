@@ -313,6 +313,7 @@ strong_float() ->
 %%-------------------------------------------------------------------------
 %% @doc
 %% ===Return an Erlang double-precision random number with the range [0.0 .. 1.0).===
+%% Left portion of the 0.0 to 1.0 range.
 %% @end
 %%-------------------------------------------------------------------------
 
@@ -326,6 +327,7 @@ strong_floatL() ->
 %%-------------------------------------------------------------------------
 %% @doc
 %% ===Return an Erlang double-precision random number with the range (0.0 .. 1.0).===
+%% Middle portion of the 0.0 to 1.0 range.
 %% @end
 %%-------------------------------------------------------------------------
 
@@ -344,6 +346,7 @@ strong_floatM() ->
 %%-------------------------------------------------------------------------
 %% @doc
 %% ===Return an Erlang double-precision random number with the range (0.0 .. 1.0].===
+%% Right portion of the 0.0 to 1.0 range.
 %% @end
 %%-------------------------------------------------------------------------
 
