@@ -62,7 +62,7 @@ box_muller(Mean, StdDev) ->
     K = StdDev * math:sqrt(-2.0 * math:log(X1)),
     Result1 = Mean + K * math:cos(X2),
     Result2 = Mean + K * math:sin(X2),
-	{Result1, Result2}.
+    {Result1, Result2}.
 
 %%-------------------------------------------------------------------------
 %% @doc
@@ -82,7 +82,7 @@ box_muller(Mean, StdDev, State0) ->
     K = StdDev * math:sqrt(-2.0 * math:log(X1)),
     Result1 = Mean + K * math:cos(X2),
     Result2 = Mean + K * math:sin(X2),
-	{Result1, Result2, StateN}.
+    {Result1, Result2, StateN}.
 
 %%%------------------------------------------------------------------------
 %%% Private functions
