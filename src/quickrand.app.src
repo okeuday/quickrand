@@ -7,6 +7,7 @@
    {modules, [
         quickrand,
         quickrand_cache,
+        quickrand_hash,
         random_wh82,
         random_wh06_int]},
    {registered, []},
