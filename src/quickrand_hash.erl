@@ -381,13 +381,13 @@ add_64(X, Y)
     when is_integer(X), is_integer(Y) ->
     (X + Y) band 16#FFFFFFFFFFFFFFFF.
 
-iodata_to_list(IOData) ->
+iodata_to_list(IOData)
+    when is_binary(IOData) ->
+    {erlang:binary_to_list(IOData), byte_size(IOData)};
+iodata_to_list(IOData)
+    when is_list(IOData) ->
     iodata_to_list([], IOData, 0).
 
-iodata_to_list(ListOut, IODataIn, Size)
-    when is_binary(IODataIn) ->
-    iodata_to_list(lists:reverse(erlang:binary_to_list(IODataIn), ListOut),
-                   [], Size + byte_size(IODataIn));
 iodata_to_list(ListOut, [Binary | IODataIn], Size)
     when is_binary(Binary) ->
     iodata_to_list(lists:reverse(erlang:binary_to_list(Binary), ListOut),
@@ -409,13 +409,17 @@ iodata_to_list(ListOut, Byte, Size)
 -include_lib("eunit/include/eunit.hrl").
 
 jenkins64_test() ->
-    Message1 = "The quick brown fox jumps over the lazy dog",
+    Message1List = "The quick brown fox jumps over the lazy dog",
+    Message1Binary = erlang:list_to_binary(Message1List),
     Hash1_32 = 2852557767,
     Hash1_64 = 3103798483409605575,
     Hash1_128 = 38830560693350521669816352328101827527,
-    Hash1_32 = quickrand_hash:jenkins64_32(Message1),
-    Hash1_64 = quickrand_hash:jenkins64_64(Message1),
-    Hash1_128 = quickrand_hash:jenkins64_128(Message1),
+    Hash1_32 = quickrand_hash:jenkins64_32(Message1List),
+    Hash1_32 = quickrand_hash:jenkins64_32(Message1Binary),
+    Hash1_64 = quickrand_hash:jenkins64_64(Message1List),
+    Hash1_64 = quickrand_hash:jenkins64_64(Message1Binary),
+    Hash1_128 = quickrand_hash:jenkins64_128(Message1List),
+    Hash1_128 = quickrand_hash:jenkins64_128(Message1Binary),
     ok.
 
 -endif.
