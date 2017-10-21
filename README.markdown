@@ -21,8 +21,9 @@ Michael Truog (mjtruog [at] gmail (dot) com)
 
 Thanks
 ------
-Raimo Niskanen (Box-Muller transformation floating-point period)
-Richard O'Keefe (floating-point random number period insights)
+
+* Raimo Niskanen (Box-Muller transformation floating-point period)
+* Richard O'Keefe (floating-point random number period insights)
 
 License
 -------
