@@ -178,13 +178,12 @@ jenkins64_128(Message0, Size0, A0, B0, C0, D0, TotalSize) when Size0 >= 16 ->
     jenkins64_128(MessageN, SizeN, AN, BN, CN, DN, TotalSize);
 jenkins64_128(Message0, Size, AN, BN, C0, D0, TotalSize) when Size >= 12 ->
     D1 = add_64(D0, TotalSize bsl 56),
-    [Byte00, Byte01, Byte02, Byte03,
-     Byte04, Byte05, Byte06, Byte07, Byte08, Byte09, Byte10, Byte11 |
-     Message1] = Message0,
+    [Byte00, Byte01, Byte02, Byte03, Byte04, Byte05, Byte06, Byte07,
+     Byte08, Byte09, Byte10, Byte11 | Message1] = Message0,
     <<Value64:64/native-unsigned-integer,
       Value32:32/native-unsigned-integer>> =
-        <<Byte00, Byte01, Byte02, Byte03,
-          Byte04, Byte05, Byte06, Byte07, Byte08, Byte09, Byte10, Byte11>>,
+        <<Byte00, Byte01, Byte02, Byte03, Byte04, Byte05, Byte06, Byte07,
+          Byte08, Byte09, Byte10, Byte11>>,
     {ValueByte12, Message3} = if
         Size >= 13 ->
             [Byte12 | Message2] = Message1,
@@ -215,8 +214,8 @@ jenkins64_128(Message0, Size, AN, BN, C0, D0, TotalSize) when Size >= 12 ->
     jenkins64_short_end(AN, BN, CN, DN);
 jenkins64_128(Message0, Size, AN, BN, C0, D0, TotalSize) when Size >=  8 ->
     D1 = add_64(D0, TotalSize bsl 56),
-    [Byte00, Byte01, Byte02, Byte03,
-     Byte04, Byte05, Byte06, Byte07 | Message1] = Message0,
+    [Byte00, Byte01, Byte02, Byte03, Byte04, Byte05, Byte06, Byte07 |
+     Message1] = Message0,
     <<Value64:64/native-unsigned-integer>> =
         <<Byte00, Byte01, Byte02, Byte03, Byte04, Byte05, Byte06, Byte07>>,
     {ValueByte08, Message3} = if
