@@ -70,7 +70,7 @@
     non_neg_integer().
 
 jenkins64_128(MessageRaw) ->
-	jenkins64_128(MessageRaw, 0).
+    jenkins64_128(MessageRaw, 0).
 
 %%-------------------------------------------------------------------------
 %% @doc
@@ -83,10 +83,10 @@ jenkins64_128(MessageRaw) ->
     non_neg_integer().
 
 jenkins64_128(MessageRaw, Seed)
-	when is_integer(Seed), Seed >= 0 ->
+    when is_integer(Seed), Seed >= 0 ->
     {Message, Size} = iodata_to_list(MessageRaw),
-	SeedA = Seed band 16#FFFFFFFFFFFFFFFF,
-	SeedB = (Seed bsr 64) band 16#FFFFFFFFFFFFFFFF,
+    SeedA = Seed band 16#FFFFFFFFFFFFFFFF,
+    SeedB = (Seed bsr 64) band 16#FFFFFFFFFFFFFFFF,
     {HashA, HashB} = jenkins64_128(Message, Size, SeedA, SeedB),
     (HashB bsl 64) + HashA.
 
@@ -100,7 +100,7 @@ jenkins64_128(MessageRaw, Seed)
     non_neg_integer().
 
 jenkins64_64(MessageRaw) ->
-	jenkins64_64(MessageRaw, 0).
+    jenkins64_64(MessageRaw, 0).
 
 %%-------------------------------------------------------------------------
 %% @doc
@@ -113,9 +113,9 @@ jenkins64_64(MessageRaw) ->
     non_neg_integer().
 
 jenkins64_64(MessageRaw, Seed)
-	when is_integer(Seed), Seed >= 0 ->
+    when is_integer(Seed), Seed >= 0 ->
     {Message, Size} = iodata_to_list(MessageRaw),
-	SeedA = Seed band 16#FFFFFFFFFFFFFFFF,
+    SeedA = Seed band 16#FFFFFFFFFFFFFFFF,
     {HashA, _} = jenkins64_128(Message, Size, SeedA, SeedA),
     HashA.
 
@@ -129,7 +129,7 @@ jenkins64_64(MessageRaw, Seed)
     non_neg_integer().
 
 jenkins64_32(MessageRaw) ->
-	jenkins64_32(MessageRaw, 0).
+    jenkins64_32(MessageRaw, 0).
 
 %%-------------------------------------------------------------------------
 %% @doc
@@ -142,9 +142,9 @@ jenkins64_32(MessageRaw) ->
     non_neg_integer().
 
 jenkins64_32(MessageRaw, Seed)
-	when is_integer(Seed), Seed >= 0 ->
+    when is_integer(Seed), Seed >= 0 ->
     {Message, Size} = iodata_to_list(MessageRaw),
-	SeedA = Seed band 16#FFFFFFFF,
+    SeedA = Seed band 16#FFFFFFFF,
     {HashA, _} = jenkins64_128(Message, Size, SeedA, SeedA),
     HashA band 16#FFFFFFFF.
 
@@ -155,7 +155,7 @@ jenkins64_32(MessageRaw, Seed)
 jenkins64_128(Message, Size, SeedA, SeedB) ->
     HashC = ?JENKINS64_CONST,
     HashD = ?JENKINS64_CONST,
-	jenkins64_128(Message, Size, SeedA, SeedB, HashC, HashD, Size).
+    jenkins64_128(Message, Size, SeedA, SeedB, HashC, HashD, Size).
 
 jenkins64_128(Message0, Size0, A0, B0, C0, D0, TotalSize) when Size0 >= 32 ->
     {IncrC, Message1, Size1} = consume_64(Message0, Size0),
@@ -166,7 +166,7 @@ jenkins64_128(Message0, Size0, A0, B0, C0, D0, TotalSize) when Size0 >= 32 ->
      DN} = jenkins64_short_mix(A0, B0, add_64(C0, IncrC), add_64(D0, IncrD)),
     {IncrA, Message3, Size3} = consume_64(Message2, Size2),
     {IncrB, MessageN, SizeN} = consume_64(Message3, Size3),
-	jenkins64_128(MessageN, SizeN,
+    jenkins64_128(MessageN, SizeN,
                   add_64(AN, IncrA), add_64(BN, IncrB), CN, DN, TotalSize);
 jenkins64_128(Message0, Size0, A0, B0, C0, D0, TotalSize) when Size0 >= 16 ->
     {IncrC, Message1, Size1} = consume_64(Message0, Size0),
@@ -175,7 +175,7 @@ jenkins64_128(Message0, Size0, A0, B0, C0, D0, TotalSize) when Size0 >= 16 ->
      BN,
      CN,
      DN} = jenkins64_short_mix(A0, B0, add_64(C0, IncrC), add_64(D0, IncrD)),
-	jenkins64_128(MessageN, SizeN, AN, BN, CN, DN, TotalSize);
+    jenkins64_128(MessageN, SizeN, AN, BN, CN, DN, TotalSize);
 jenkins64_128(Message0, Size, AN, BN, C0, D0, TotalSize) when Size >= 12 ->
     D1 = add_64(D0, TotalSize bsl 56),
     [Byte00, Byte01, Byte02, Byte03,
@@ -379,7 +379,7 @@ consume_64([Byte00, Byte01, Byte02, Byte03, Byte04, Byte05, Byte06, Byte07 |
 
 add_64(X, Y)
     when is_integer(X), is_integer(Y) ->
-	(X + Y) band 16#FFFFFFFFFFFFFFFF.
+    (X + Y) band 16#FFFFFFFFFFFFFFFF.
 
 iodata_to_list(IOData) ->
     iodata_to_list([], IOData, 0).
