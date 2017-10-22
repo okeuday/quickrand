@@ -230,8 +230,13 @@ jenkins_32(Message0, Size0, A0, B0, C0) when Size0 >= 12 ->
      BN,
      CN} = jenkins_mix(add_32(A0, IncrA), add_32(B0, IncrB), add_32(C0, IncrC)),
     jenkins_32(MessageN, SizeN, AN, BN, CN);
-jenkins_32(Message0, Size0, A, B, C) when Size0 >= 4 ->
-    {IncrA, Message1, Size1} = consume_32(Message0, Size0),
+jenkins_32(Message0, Size0, A, B, C) when Size0 >= 1 ->
+    {IncrA, Message1, Size1} = if
+        Size0 >= 4 ->
+            consume_32(Message0, Size0);
+        true ->
+            consume_32_part(Message0, Size0)
+    end,
     {IncrB, MessageN, SizeN} = if
         Size1 >= 4 ->
             consume_32(Message1, Size1);
