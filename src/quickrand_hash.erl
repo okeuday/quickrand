@@ -650,7 +650,7 @@ jenkins_test() ->
     Hash1_32 = quickrand_hash:jenkins_32(Message1Binary),
     Hash1_64 = quickrand_hash:jenkins_64(Message1List),
     Hash1_64 = quickrand_hash:jenkins_64(Message1Binary),
-	ok.
+    ok.
 
 jenkins64_test() ->
     Message1List = "The quick brown fox jumps over the lazy dog",
