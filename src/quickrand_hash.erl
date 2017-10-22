@@ -9,7 +9,7 @@
 %%%
 %%% Any functions that have a jenkins prefix use Bob Jenkins' lookup3 hashing
 %%% (lookup3, May 2006).  In my testing, the function jenkins_32 is 4 times
-%%% slower than erlang:phash/1 because jenkins_32 is implemented in Erlang.
+%%% slower than erlang:phash2/1 because jenkins_32 is implemented in Erlang.
 %%% Both the jenkins_32 and jenkins_64 functions execute at a speed similar to
 %%% crypto:hash(ripemd160,_) with crypto:hash(sha256,_) slightly faster and
 %%% crypto:hash(sha512,_) slightly slower.
