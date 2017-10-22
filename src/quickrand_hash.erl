@@ -3,15 +3,25 @@
 %%%
 %%%------------------------------------------------------------------------
 %%% @doc
-%%% ==Quick Random Number Generation With Hash Functions==
+%%% ==Random Number Generation With Hash Functions==
 %%% The random numbers created by the functions in this module are
 %%% not meant for cryptographic purposes.
 %%%
 %%% Any functions that have a jenkins prefix use Bob Jenkins' lookup3 hashing
-%%% (lookup3, May 2006).
+%%% (lookup3, May 2006).  In my testing, the function jenkins_32 is 4 times
+%%% slower than erlang:phash/1 because jenkins_32 is implemented in Erlang.
+%%% Both the jenkins_32 and jenkins_64 functions execute at a speed similar to
+%%% crypto:hash(ripemd160,_) with crypto:hash(sha256,_) slightly faster and
+%%% crypto:hash(sha512,_) slightly slower.
 %%%
 %%% Any functions that have a jenkins64 prefix use Bob Jenkins' SpookyHash
-%%% (SpookyV2, August 5 2012).
+%%% (SpookyV2, August 5 2012).  In my testing, the function jenkins64_128 is
+%%% 4.5 times slower than crypto:hash(md5,_) which provides the same number
+%%% of bits, because the jenkins64 functions are implemented in Erlang.
+%%%
+%%% All the jenkins prefix functions have been checked with the C++
+%%% implementations to ensure the same hash value is obtained, though
+%%% this implementation forces numbers to be interpreted as big-endian.
 %%% @end
 %%%
 %%% MIT License
