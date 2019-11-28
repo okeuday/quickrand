@@ -6,7 +6,6 @@ otp_release:
   - 19.3
   - 18.3
   - 17.5
-  - R16B
 script: rebar compile
 after_script:
   - rebar clean
