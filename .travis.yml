@@ -7,7 +7,7 @@ otp_release:
   - 19.3
   - 18.3
   - 17.5
-script: rebar compile eunit suites=quickrand
+script: rebar compile eunit
 after_script:
   - rebar clean
 branches:
