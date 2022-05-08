@@ -35,10 +35,10 @@
 -define(BYTES_RESOLUTION, 4). % bytes
 
 bytes(I) when is_integer(I), I > 0 ->
-    bytes(0, I).
+    bytes(I, 0).
 
-bytes(Bytes, 0) ->
+bytes(0, Bytes) ->
     Bytes;
-bytes(Bytes, I) ->
-    bytes(Bytes + ?BYTES_RESOLUTION, I bsr (?BYTES_RESOLUTION * 8)).
+bytes(I, Bytes) ->
+    bytes(I bsr (?BYTES_RESOLUTION * 8), Bytes + ?BYTES_RESOLUTION).
 
