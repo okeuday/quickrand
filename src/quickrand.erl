@@ -144,8 +144,12 @@
 %% The wider bounds (i.e., wider than [0.001..0.999]) are due to the
 %% shorter period.
 %%
-%% mwc59x_32/1 is slighly more efficient and should provide slightly better
-%% randomness, so this function may be removed after further testing.
+%% mwc59x_32/1 is slighly more efficient but provides slightly less randomness
+%% (same p-value statistics bounds but the separate sums of
+%%  (1e-8  .. 1e-4] and [1 - 1e-4 .. 1 - 1e-8) are less extreme
+%%  for lcg35x_32/1, i.e., the mwc59x_32/1 (1e-8  .. 1e-4] sum is 20.3% smaller
+%%  and the mwc59x_32/1 [1 - 1e-4 .. 1 - 1e-8) sum is 16.1% larger while
+%%  mwc59x_32/1 provides roughly a 1.08x speedup with Erlang/OTP 25.0).
 %%
 %% Pierre L'Ecuyer, Richard Simard.
 %% TestU01: A C Library for Empirical Testing of Random Number Generators.
@@ -203,11 +207,12 @@ lcg35x_32(N) ->
 %% The period is approximately 2^58.
 %%
 %% X1 and C1 are combined with xor to produce a 32-bit random number.
-%% TestU01 SmallCrush/Crush/BigCrush have been used to test the 32-bit
-%% result (both with the bits forward and reversed)
-%% and the p-value statistics are in [0.000001..0.999999] .
+%% TestU01 SmallCrush/Crush/BigCrush have been used to test the 32-bit result
+%% (both with the bits forward and reversed)
+%% and the p-value statistics are in [0.0000001..0.9999999]
+%% (when starting from 100 equispaced points of the state space).
 %% The wider bounds (i.e., wider than [0.001..0.999]) are due to the
-%% shorter period. (testing is ongoing)
+%% shorter period.
 %%
 %% rand:mwc59/1 in Erlang/OTP 25.0 is similar.  However, usage of rand:mwc59/1
 %% with rand:mwc59_value32/1 clearly fails the TestU01 Crush and BigCrush tests
