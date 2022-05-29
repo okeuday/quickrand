@@ -172,9 +172,9 @@
 lcg35x_32(N) ->
     {LCG1, MCG1} = case erlang:get(?LCG35X_PDICT_KEY) of
         undefined ->
-            <<LCG0:35/unsigned-integer,
-              MCG0:35/unsigned-integer,
-              _:2>> = crypto:strong_rand_bytes(9),
+            <<LCG0:34/unsigned-integer,
+              MCG0:34/unsigned-integer,
+              _:4>> = crypto:strong_rand_bytes(9),
             {LCG0 + 1, MCG0 + 1};
         {LCG0, MCG0} = Seed when is_integer(LCG0), is_integer(MCG0) ->
             Seed
