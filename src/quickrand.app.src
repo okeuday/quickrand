@@ -19,5 +19,6 @@
         kernel]},
    {env, [
         % default cache_size == 64 KB
-        {cache_size, 65536}]}]}.
+        {cache_size, 65536}]},
+   {licenses, ["MIT"]}]}.
 
