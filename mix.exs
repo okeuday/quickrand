@@ -9,7 +9,7 @@ defmodule Quickrand.Mixfile do
      version: "2.0.7",
      language: :erlang,
      erlc_options: [
-       {:d, :erlang.list_to_atom('ERLANG_OTP_VERSION_' ++ :erlang.system_info(:otp_release))},
+       {:d, String.to_atom("ERLANG_OTP_VERSION_" <> to_string(System.otp_release()))},
        :deterministic,
        :debug_info,
        :warn_export_vars,
